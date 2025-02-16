@@ -58,22 +58,26 @@ This script will:
 After running the scripts, the project directory will look like this:
 
 ```bash
-alchemy-proj/
+digital-alchemy/
 ├── data
 │   ├── create-db.py
 │   ├── download.py
 │   ├── prepare-dataset.sh
-│   ├── QM7X_Dataset
-│   │   ├── 1000.hdf5
-│   │   ├── 2000.hdf5
-│   │   ├── 3000.hdf5
-│   │   ├── 4000.hdf5
-│   │   ├── 5000.hdf5
-│   │   ├── 6000.hdf5
-│   │   ├── 7000.hdf5
-│   │   └── 8000.hdf5
-│   └── QM7X.db
+│   └── QM7X_Dataset
+│       ├── 1000.hdf5
+│       ├── 2000.hdf5
+│       ├── 3000.hdf5
+│       ├── 4000.hdf5
+│       ├── 5000.hdf5
+│       ├── 6000.hdf5
+│       ├── 7000.hdf5
+│       ├── 8000.hdf5
+│       └── QM7X.db
 ├── environment.yml
+├── paper-presentation
+│   ├── BiM-Network.ipynb
+│   ├── dataset-explore.ipynb
+│   └── README.md
 └── README.md
 ```
 
