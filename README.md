@@ -20,12 +20,13 @@ conda env create -f environment.yml
 
 This will create a Conda environment named `alchemy-env` (or the name specified in the environment.yml file).
 
-### 2. Activate the Conda Environment
+### 2. Activate the Conda Environment & Install Dependencies
 
 Activate the environment using:
 
 ```bash
 conda activate alchemy-env
+pip install
 ```
 
 ### 3. Run the Dataset Preparation Script
