@@ -38,8 +38,8 @@ Once the environment is activated, run the prepare-dataset.sh script to automate
 
 This script will:
 
-    - Run download.py to download and convert the dataset to an HDF5 file.
-    - Run create-db.py to create a database (.db) file from the downloaded dataset.
+-   Run download.py to download and convert the dataset to an HDF5 file.
+-   Run create-db.py to create a database (.db) file from the downloaded dataset.
 
 ---
 
