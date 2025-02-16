@@ -6,7 +6,7 @@ from ase import Atoms
 from schnetpack.data import ASEAtomsData
 
 DATASET_DIR = "QM7X_Dataset" 
-DB_PATH     = "QM7X.db"  
+DB_PATH     = "QM7X_Dataset/QM7X.db"  
 
 # Atom reference energies (used for atomization energy calculations)
 EPBE0_atom = {
