@@ -91,10 +91,10 @@ digital-alchemy/
 conda update conda
 ```
 
--   **Permission Denied**: If setup.sh fails to execute, make it executable:
+-   **Permission Denied**: If `prepare-dataset.sh` fails to execute, make it executable:
 
 ```bash
-chmod +x setup.sh
+chmod +x prepare-dataset.sh
 ```
 
 -   **Missing Dependencies**: If any Python script fails, ensure all dependencies are installed by checking the environment.yml file.
