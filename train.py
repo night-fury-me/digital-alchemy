@@ -6,10 +6,6 @@ import mlflow.pytorch
 import pytorch_lightning as pl
 import schnetpack as spk
 import schnetpack.transform as trn
-# from schnetpack.train import Trainer
-# from schnetpack.loss import MeanSquaredErrorLoss
-# from schnetpack.task import AtomisticTask, ModelCheckpoint
-# from schnetpack.data import ASEAtomsData, AtomsDataModule
 
 # Define paths
 DATASET_PATH = "data/QM7X_Dataset/QM7X.db"
