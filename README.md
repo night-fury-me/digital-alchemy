@@ -226,15 +226,15 @@ If energy remains **constant instead of fluctuating**, try:
 
 -   **Conda Environment Issues**: If the environment creation fails, ensure the environment.yml file is correct and try updating Conda:
 
-```bash
-conda update conda
-```
+    ```bash
+    conda update conda
+    ```
 
 -   **Permission Denied**: If `prepare-dataset.sh` fails to execute, make it executable:
 
-```bash
-chmod +x prepare-dataset.sh
-```
+    ```bash
+    chmod +x prepare-dataset.sh
+    ```
 
 -   **Missing Dependencies**: If any Python script fails, ensure all dependencies are installed by checking the environment.yml file.
 
