@@ -202,7 +202,7 @@ If energy remains **constant instead of fluctuating**, try:
     Run the following script to analyze energy stability:
 
     ```bash
-    python plot_e_vs_t.py
+    python energy-vs-time.py
     ```
 
     This will generate a plot showing **how total energy evolves over time**.
