@@ -237,3 +237,13 @@ chmod +x prepare-dataset.sh
 ```
 
 -   **Missing Dependencies**: If any Python script fails, ensure all dependencies are installed by checking the environment.yml file.
+
+---
+
+### **References**
+
+-   Christensen, A. S., Faber, F. A., Papajak, E., Huang, B., Tkatchenko, A., & von Lilienfeld, O. A. (2020). QM7-X, a comprehensive dataset of quantum-mechanical properties spanning the chemical space of small organic molecules. Scientific Data, 7(1), 1-7. https://doi.org/10.1038/s41597-020-0473-z
+
+-   Schütt, K. T., Hessmann, S. S. P., Gebauer, N. W. A., Lederer, J., & Gastegger, M. (2023). SchNetPack 2.0: A neural network toolbox for atomistic machine learning. The Journal of Chemical Physics, 158(14), 144801. https://doi.org/10.1063/5.0138367
+
+-   Schütt, K. T., Kessel, P., Gastegger, M., Nicoli, K., Tkatchenko, A., & Müller, K.-R. (2019). SchNetPack: A deep learning toolbox for atomistic systems. Journal of Chemical Theory and Computation, 15(1), 448-455. https://doi.org/10.1021/acs.jctc.8b00908
