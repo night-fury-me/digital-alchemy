@@ -1,4 +1,8 @@
+> _This repository contains Digital Alchemy Project (WiSo24/25 at FAU) and uses [QM7-X dataset](https://zenodo.org/records/4288677)._
+
 ## Project Title: _QuantumML-MolDynamics_ Predicting Molecular Energies and Forces for Advanced Molecular Dynamics Simulations
+
+<img src="images/banner.png" alt="Project Banner" width="100%">
 
 ---
 
