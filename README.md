@@ -2,6 +2,12 @@
 
 ---
 
+### **Overview**
+
+This project trains a machine learning model using the **QM7-X dataset** to predict **molecular energies and forces**. The trained model is then used in **Molecular Dynamics (MD) simulations** to study atomic motion under various conditions.
+
+---
+
 ### Prerequisites
 
 -   **Conda**: Install [Miniconda](https://docs.conda.io/en/latest/miniconda.html) or [Anaconda](https://www.anaconda.com/products/distribution) if not already installed.
@@ -29,11 +35,12 @@ conda activate alchemy-env
 pip install
 ```
 
-### 3. Run the Dataset Preparation Script
+### 3. Dataset Preparation
 
-Once the environment is activated, run the prepare-dataset.sh script to automate the dataset preparation process:
+Once the environment is activated, run the `prepare-dataset.sh` script to automate the dataset preparation process:
 
 ```bash
+cd data
 ./prepare-dataset.sh
 ```
 
@@ -46,11 +53,9 @@ This script will:
 
 ### Script Details
 
--   `download.py`: Downloads the dataset and converts it to an HDF5 file.
-
--   `create-db.py`: Creates a database (.db) file from the HDF5 file.
-
--   `prepare-dataset.sh`: Automates the execution of `download.py` and `create-db.py`.
+-   `data/download.py`: Downloads the dataset and converts it to an HDF5 file.
+-   `data/create-db.py`: Creates a database (.db) file from the HDF5 file.
+-   `data/prepare-dataset.sh`: Automates the execution of `download.py` and `create-db.py`.
 
 ---
 
@@ -60,6 +65,8 @@ After running the scripts, the project directory will look like this:
 
 ```bash
 digital-alchemy/
+├── ckpts
+│   └── best_model
 ├── data
 │   ├── create-db.py
 │   ├── download.py
@@ -74,13 +81,140 @@ digital-alchemy/
 │       ├── 7000.hdf5
 │       ├── 8000.hdf5
 │       └── QM7X.db
+├── energy-vs-time.py
 ├── environment.yml
+├── evaluate.py
+├── lightning_logs
+│   └── version_1
+│       ├── checkpoints
+│       │   └── epoch=83-step=5292.ckpt
+│       ├── events.out.tfevents.1739748819.redStation.1030311.0
+│       └── hparams.yaml
+├── mlruns
+│   ├── 0
+│   │   └── meta.yaml
+│   ├── 595388344762858645
+│   └── models
 ├── paper-presentation
 │   ├── BiM-Network.ipynb
 │   ├── dataset-explore.ipynb
 │   └── README.md
-└── README.md
+├── qm7x_ase_calculations
+│   └── test_molecule.xyz
+├── README.md
+├── requirements.txt
+├── simulate_md.py
+├── simulation
+│   └── trajectory.traj
+├── split.npz
+├── splitting.lock
+└── train.py
 ```
+
+---
+
+### Training the Model
+
+Train the model to predict **molecular energy and forces**:
+
+```bash
+python train.py
+```
+
+### Training Details:
+
+-   Uses `SchNet (as base)` neural network.
+-   Optimized using `AdamW optimizer`.
+-   Loss function balances energy (MSE loss) and force predictions.
+-   Logs training results in MLflow.
+
+### Check Training Progress in MLflow
+
+Start MLflow UI to monitor training results:
+
+```bash
+mlflow ui --host 0.0.0.0 --port 5000
+```
+
+Open `http://localhost:5000` in your browser to visualize metrics.
+
+---
+
+### Evaluating the Model
+
+Once training is complete, evaluate the model on **unseen test molecules**:
+
+```bash
+python evaluate.py
+```
+
+### Outputs:
+
+-   Actual vs. Predicted Energy & Forces
+
+---
+
+### Running Molecular Dynamics (MD) Simulations
+
+Use the trained model to simulate **atomic motion over time** with MD Algorithm **(Verlet or Langevin)**:
+
+```bash
+python simulate_md.py
+```
+
+### Expected Behavior:
+
+-   The system should start with a **high-energy structure** and relax into a stable state.
+-   If using a **Langevin thermostat**, the system should exhibit **thermal fluctuations**.
+
+### Debugging MD Issues:
+
+If energy remains **constant instead of fluctuating**, try:
+
+-   **Reducing timestep** (`0.5 fs` instead of `1 fs`).
+-   **Increasing Langevin friction** (`0.1` instead of `0.02`).
+-   **Printing force values**:
+    ```python
+    print("Forces at Step 100:", atoms.get_forces())
+    ```
+-   **Printing temperature**:
+    ```python
+    print("Temperature at Step 100:", atoms.get_temperature())
+    ```
+
+---
+
+### Visualizing MD Results
+
+-   **View Atomic Motion in ASE GUI**
+
+    ```bash
+    ase gui trajectory.traj
+    ```
+
+    This opens an interactive visualization of **how atoms move over time**.
+
+-   **Plot Energy vs. Time**
+    Run the following script to analyze energy stability:
+
+    ```bash
+    python plot_e_vs_t.py
+    ```
+
+    This will generate a plot showing **how total energy evolves over time**.
+
+-   **Extract MD Energies from Trajectory**
+
+    ```python
+    from ase.io import Trajectory
+
+    # Load MD trajectory
+    traj = Trajectory("simulation/trajectory.traj")
+
+    # Print energies at each step
+    for step, atoms in enumerate(traj):
+        print(f"Step {step}: Energy = {atoms.get_potential_energy()} eV")
+    ```
 
 ---
 
