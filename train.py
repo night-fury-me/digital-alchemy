@@ -88,6 +88,7 @@ task = spk.task.AtomisticTask(
 )
 
 # Step 7: Integrate MLflow for Experiment Tracking
+mlflow.set_tracking_uri("http://0.0.0.0:5000")
 mlflow.set_experiment(MLFLOW_EXPERIMENT_NAME)
 
 with mlflow.start_run():
