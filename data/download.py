@@ -3,7 +3,9 @@ import urllib.request
 import lzma
 import sys
 
-DATASET_DIR = "QM7X_Dataset"
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATASET_DIR = os.path.join(SCRIPT_DIR, "QM7X_Dataset")
 os.makedirs(DATASET_DIR, exist_ok=True)
 
 dataset_files = [
