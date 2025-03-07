@@ -12,58 +12,80 @@ This project trains a machine learning model using the **QM7-X dataset** to pred
 
 ---
 
-### Prerequisites
+### **Prerequisites**
 
--   **Conda**: Install [Miniconda](https://docs.conda.io/en/latest/miniconda.html) or [Anaconda](https://www.anaconda.com/products/distribution) if not already installed.
+Ensure that you have the following installed on your system:
+
+-   [Docker](https://docs.docker.com/get-docker/)
+-   [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) (for GPU support)
+
+To verify that Docker is installed, run:
+
+```bash
+docker --version
+```
+
+If you want to use GPU support, ensure the NVIDIA runtime is set up by running:
+
+```bash
+docker run --rm --gpus all nvidia/cuda:11.7.1-base nvidia-smi
+```
+
+This should display information about your GPU.
 
 ---
 
-### Setup Instructions
+### **Building the Docker Image**
 
-### 1. Create a Conda Environment
-
-A `environment.yml` file is provided to set up the required dependencies. Run the following command to create the Conda environment:
+Clone your repository and navigate to the project directory:
 
 ```bash
-conda env create -f environment.yml
+git clone https://github.com/night-fury-me/digital-alchemy.git
+cd digital-alchemy
 ```
 
-This will create a Conda environment named `alchemy-env` (or the name specified in the environment.yml file).
-
-### 2. Activate the Conda Environment & Install Dependencies
-
-Activate the environment using:
+Then, build the Docker image using:
 
 ```bash
-conda activate alchemy-env
-pip install
+docker build -t digital_alchemy_img .
 ```
 
-### 3. Dataset Preparation
+This will create an image named `digital_alchemy_img`.
 
-Once the environment is activated, run the `prepare-dataset.sh` script to automate the dataset preparation process:
+---
+
+### **Running the MLflow Server Inside a Docker Container**
+
+To start the MLflow server inside a Docker container and expose the MLflow UI on port 5000, run:
 
 ```bash
-cd data
-./prepare-dataset.sh
+docker run -d --gpus all -p 5000:5000 -v $(pwd)/mlruns:/workspace/mlruns -w /workspace --name mlflow_server digital_alchemy_img mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri /workspace/mlruns
+```
+
+Once the server is running, you can access the MLflow UI at:
+
+```
+http://localhost:5000
+```
+
+---
+
+### **Dataset Preparation**
+
+Run the dataset preparation script:
+
+```bash
+docker run --rm -it --gpus all -v $(pwd):/workspace -w /workspace digital_alchemy_img bash data/prepare-dataset.sh
 ```
 
 This script will:
 
--   Run download.py to download and convert the dataset to an HDF5 file.
--   Run create-db.py to create a database (.db) file from the downloaded dataset.
+-   Run `download.py` to download and convert the dataset to an HDF5 file.
+-   Run `create-db.py` to create a database (.db) file from the dataset.
 
 ---
 
-### Script Details
-
--   `data/download.py`: Downloads the dataset and converts it to an HDF5 file.
--   `data/create-db.py`: Creates a database (.db) file from the HDF5 file.
--   `data/prepare-dataset.sh`: Automates the execution of `download.py` and `create-db.py`.
-
----
-
-### Directory Structure
+### **Directory Structure**
 
 After running the scripts, the project directory will look like this:
 
@@ -115,135 +137,124 @@ digital-alchemy/
 └── train.py
 ```
 
----
+### **Running the Training Script (`train.py`) in a Docker Container**
 
-### Training the Model
-
-Train the model to predict **molecular energy and forces**:
+After the MLflow server is running, open another terminal and execute:
 
 ```bash
-python train.py
+docker run --rm -it --gpus all -v $(pwd):/workspace -w /workspace --network="host" digital_alchemy_img python train.py
 ```
 
-### Training Details:
+---
 
--   Uses `SchNet (as base)` neural network.
+### **Verifying MLflow Logging**
+
+After running the training script, check the MLflow UI (`http://localhost:5000`) to ensure experiment metrics, parameters, and logs are recorded.
+
+---
+
+### **Stopping the MLflow Server**
+
+To stop the MLflow server, find the running container ID using:
+
+```bash
+docker ps
+```
+
+Then stop the container using:
+
+```bash
+docker stop <container-id>
+```
+
+---
+
+### **Training Details**
+
+-   Uses `SchNet` as the base neural network.
 -   Optimized using `AdamW optimizer`.
 -   Loss function balances energy (MSE loss) and force predictions.
 -   Logs training results in MLflow.
 
-### Check Training Progress in MLflow
+---
 
-Start MLflow UI to monitor training results:
+### **Evaluating the Model**
+
+Once training is complete, evaluate the model on unseen test molecules:
 
 ```bash
-mlflow ui --host 0.0.0.0 --port 5000
+docker run --rm -it --gpus all -v $(pwd):/workspace -w /workspace --network="host" digital_alchemy_img python evaluate.py
 ```
-
-Open `http://localhost:5000` in your browser to visualize metrics.
 
 ---
 
-### Evaluating the Model
+### **Running Molecular Dynamics (MD) Simulations**
 
-Once training is complete, evaluate the model on **unseen test molecules**:
-
-```bash
-python evaluate.py
-```
-
-### Outputs:
-
--   Actual vs. Predicted Energy & Forces
-
----
-
-### Running Molecular Dynamics (MD) Simulations
-
-Use the trained model to simulate **atomic motion over time** with MD Algorithm **(Verlet or Langevin)**:
+To run MD simulations:
 
 ```bash
-python simulate_md.py
+docker run --rm -it --gpus all -v $(pwd):/workspace -w /workspace --network="host" digital_alchemy_img python simulate_md.py
 ```
 
-### Expected Behavior:
-
--   The system should start with a **high-energy structure** and relax into a stable state.
--   If using a **Langevin thermostat**, the system should exhibit **thermal fluctuations**.
-
-### Debugging MD Issues:
+#### **Debugging MD Issues:**
 
 If energy remains **constant instead of fluctuating**, try:
 
--   **Reducing timestep** (`0.5 fs` instead of `1 fs`).
--   **Increasing Langevin friction** (`0.1` instead of `0.02`).
--   **Printing force values**:
+-   Reducing the timestep (`0.5 fs` instead of `1 fs`).
+-   Increasing Langevin friction (`0.1` instead of `0.02`).
+-   Printing force values:
     ```python
     print("Forces at Step 100:", atoms.get_forces())
     ```
--   **Printing temperature**:
+-   Printing temperature:
     ```python
     print("Temperature at Step 100:", atoms.get_temperature())
     ```
 
 ---
 
-### Visualizing MD Results
+### **Visualizing MD Results**
 
--   **View Atomic Motion in ASE GUI**
+#### **Install ASE (Atomic Simulation Environment)**
 
-    ```bash
-    ase gui trajectory.traj
-    ```
+```bash
+pip install ase
+```
 
-    This opens an interactive visualization of **how atoms move over time**.
+#### **View Atomic Motion in ASE GUI**
 
--   **Plot Energy vs. Time**
-    Run the following script to analyze energy stability:
+```bash
+ase gui trajectory.traj
+```
 
-    ```bash
-    python energy-vs-time.py
-    ```
+#### **Plot Energy vs. Time**
 
-    This will generate a plot showing **how total energy evolves over time**.
+```bash
+python energy-vs-time.py
+```
 
--   **Extract MD Energies from Trajectory**
+#### **Extract MD Energies from Trajectory**
 
-    ```python
-    from ase.io import Trajectory
-
-    # Load MD trajectory
-    traj = Trajectory("simulation/trajectory.traj")
-
-    # Print energies at each step
-    for step, atoms in enumerate(traj):
-        print(f"Step {step}: Energy = {atoms.get_potential_energy()} eV")
-    ```
+```python
+from ase.io import Trajectory
+traj = Trajectory("simulation/trajectory.traj")
+for step, atoms in enumerate(traj):
+    print(f"Step {step}: Energy = {atoms.get_potential_energy()} eV")
+```
 
 ---
 
-### Troubleshooting
+### **Troubleshooting**
 
--   **Conda Environment Issues**: If the environment creation fails, ensure the environment.yml file is correct and try updating Conda:
+#### **1. Permission Denied for `prepare-dataset.sh`**
 
-    ```bash
-    conda update conda
-    ```
-
--   **Permission Denied**: If `prepare-dataset.sh` fails to execute, make it executable:
-
-    ```bash
-    chmod +x prepare-dataset.sh
-    ```
-
--   **Missing Dependencies**: If any Python script fails, ensure all dependencies are installed by checking the environment.yml file.
+```bash
+chmod +x data/prepare-dataset.sh
+```
 
 ---
 
 ### **References**
 
--   Christensen, A. S., Faber, F. A., Papajak, E., Huang, B., Tkatchenko, A., & von Lilienfeld, O. A. (2020). QM7-X, a comprehensive dataset of quantum-mechanical properties spanning the chemical space of small organic molecules. Scientific Data, 7(1), 1-7. https://doi.org/10.1038/s41597-020-0473-z
-
--   Schütt, K. T., Hessmann, S. S. P., Gebauer, N. W. A., Lederer, J., & Gastegger, M. (2023). SchNetPack 2.0: A neural network toolbox for atomistic machine learning. The Journal of Chemical Physics, 158(14), 144801. https://doi.org/10.1063/5.0138367
-
--   Schütt, K. T., Kessel, P., Gastegger, M., Nicoli, K., Tkatchenko, A., & Müller, K.-R. (2019). SchNetPack: A deep learning toolbox for atomistic systems. Journal of Chemical Theory and Computation, 15(1), 448-455. https://doi.org/10.1021/acs.jctc.8b00908
+-   Christensen et al., (2020). QM7-X, a comprehensive dataset. _Scientific Data_, 7(1), 1-7. https://doi.org/10.1038/s41597-020-0473-z
+-   Schütt et al., (2023). SchNetPack 2.0: _A neural network toolbox for atomistic machine learning._ https://doi.org/10.1063/5.0138367
