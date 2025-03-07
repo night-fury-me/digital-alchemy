@@ -23,7 +23,7 @@ N_INTERACTIONS  = 6
 BATCS_SIZE      = 128
 LEARNING_RATE   = 1e-4
 
-# Step 1: Load QM7-X dataset
+# Step 1: Load QM7-X dataset (unchanged)
 qm7x_data = spk.data.AtomsDataModule(
     DATASET_PATH,
     batch_size=BATCS_SIZE,
@@ -39,23 +39,31 @@ qm7x_data = spk.data.AtomsDataModule(
     pin_memory=True,
 )
 
-# Step 2: Define SchNet Model
+# Step 2: Define PaiNN Model (modified)
 pairwise_distance = spk.atomistic.PairwiseDistances()
 radial_basis = spk.nn.GaussianRBF(n_rbf=20, cutoff=CUTOFF_RADIUS)
-schnet = spk.representation.SchNet(
+
+# schnet = spk.representation.SchNet(
+#     n_atom_basis=N_ATOM_BASIS,
+#     n_interactions=N_INTERACTIONS,
+#     radial_basis=radial_basis,
+#     cutoff_fn=spk.nn.CosineCutoff(CUTOFF_RADIUS),
+# )
+
+painn = spk.representation.PaiNN(
     n_atom_basis=N_ATOM_BASIS,
     n_interactions=N_INTERACTIONS,
     radial_basis=radial_basis,
     cutoff_fn=spk.nn.CosineCutoff(CUTOFF_RADIUS),
 )
 
-# Step 3: Define Output Modules
+# Step 3: Define Output Modules (unchanged)
 pred_energy = spk.atomistic.Atomwise(n_in=N_ATOM_BASIS, output_key="energy")
 pred_forces = spk.atomistic.Forces(energy_key="energy", force_key="forces")
 
-# Step 4: Assemble Neural Network Potential (NNP)
+# Step 4: Assemble Neural Network Potential (modified representation)
 nnpot = spk.model.NeuralNetworkPotential(
-    representation=schnet,
+    representation=painn, #schnet,
     input_modules=[pairwise_distance],
     output_modules=[pred_energy, pred_forces],
     postprocessors=[
@@ -64,22 +72,22 @@ nnpot = spk.model.NeuralNetworkPotential(
     ]
 )
 
-# Step 5: Define Loss Functions
+# Step 5: Define Loss Functions (unchanged)
 output_energy = spk.task.ModelOutput(
     name="energy",
     loss_fn=torch.nn.MSELoss(),
-    loss_weight=0.01,  # Small weight for energy loss
+    loss_weight=0.01,
     metrics={"MAE": torchmetrics.MeanAbsoluteError()}
 )
 
 output_forces = spk.task.ModelOutput(
     name="forces",
     loss_fn=torch.nn.MSELoss(),
-    loss_weight=0.99,  # Higher weight for force prediction
+    loss_weight=0.99,
     metrics={"MAE": torchmetrics.MeanAbsoluteError()}
 )
 
-# Step 6: Define Training Task
+# Step 6: Define Training Task (unchanged)
 task = spk.task.AtomisticTask(
     model=nnpot,
     outputs=[output_energy, output_forces],
@@ -87,13 +95,13 @@ task = spk.task.AtomisticTask(
     optimizer_args={"lr": LEARNING_RATE},
 )
 
-# Step 7: Integrate MLflow for Experiment Tracking
+# Step 7: Integrate MLflow (modified representation name)
 mlflow.set_tracking_uri("http://0.0.0.0:5000")
 mlflow.set_experiment(MLFLOW_EXPERIMENT_NAME)
 
 with mlflow.start_run():
     mlflow.log_params({
-        "representation": "schnet",
+        "representation": "painn",  # Changed from schnet
         "dataset": "QM7-X",
         "cutoff_radius": CUTOFF_RADIUS,
         "n_atom_basis": N_ATOM_BASIS,
@@ -103,10 +111,10 @@ with mlflow.start_run():
         "learning_rate": LEARNING_RATE,
     })
 
-    # Define Trainer with MLflow logging
+    # Define Trainer (unchanged)
     callbacks = [
         spk.train.ModelCheckpoint(
-            model_path=os.path.join(SAVE_DIR, "best_model"),
+            model_path=os.path.join(SAVE_DIR, "best_model_painn.ckpt"),
             save_top_k=1,
             monitor="val_loss"
         )
@@ -119,6 +127,7 @@ with mlflow.start_run():
         devices=1
     )
 
+    # Device setup (unchanged)
     if torch.cuda.is_available():
         device = torch.device("cuda")
         print(f"Training on GPU: {torch.cuda.get_device_name(0)}")
@@ -126,11 +135,10 @@ with mlflow.start_run():
         device = torch.device("cpu")
         print("CUDA not available, training on CPU.")
 
-    # Step 8: Train the Model
+    # Step 8: Train the Model (unchanged)
     trainer.fit(task, datamodule=qm7x_data)
 
-    # Log Final Model to MLflow
-    mlflow.pytorch.log_model(task.model, "schnet_model")
+    # Log model (modified name)
+    mlflow.pytorch.log_model(task.model, "painn_model")  # Changed from schnet_model
 
-    print("\nTraining complete! Model logged to MLflow.")
-
+    print("\nTraining complete! PaiNN model logged to MLflow.")

@@ -11,7 +11,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using device: {device}")
 
 # Step 2: Load Trained Model
-model_path = "ckpts/best_model" 
+model_path = "ckpts/best_model_painn.ckpt" 
 if not os.path.exists(model_path):
     raise FileNotFoundError(f"Model not found at {model_path}")
 
