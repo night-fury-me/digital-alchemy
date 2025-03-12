@@ -1,0 +1,36 @@
+# Use the Python 3.12 Bullseye base image
+FROM python:3.12-bullseye
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TORCH_CUDA_ARCH_LIST="6.0;7.0;8.0;8.6"
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+# Update package lists and install SQLite
+RUN apt-get update && \
+    apt-get install -y git sqlite3 libsqlite3-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Verify SQLite installation
+RUN sqlite3 --version
+
+# Set the working directory
+WORKDIR /app
+
+# Install any necessary Python packages
+RUN pip install --no-cache-dir \
+    pytorch-lightning \
+    torchmetrics \
+    matplotlib \
+    h5py \ 
+    progressbar2 \
+    tensorboard 
+
+RUN pip install git+https://github.com/atomistic-machine-learning/schnetpack.git
+RUN pip install git+https://github.com/sympy/sympy.git
+
+# Set the working directory
+WORKDIR /workspace
+
+CMD ["bash"]

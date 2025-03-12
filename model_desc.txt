@@ -1,0 +1,64 @@
+### SchNet
+
+  | Name    | Type                   | Params | Mode 
+-----------------------------------------------------------
+0 | model   | NeuralNetworkPotential | 432 K  | train
+1 | outputs | ModuleList             | 0      | train
+-----------------------------------------------------------
+432 K     Trainable params
+0         Non-trainable params
+432 K     Total params
+1.731     Total estimated model params size (MB)
+108       Modules in train mode
+0         Modules in eval mode
+- Version 0  (QM7X) Batch Size 512
+- Version 20 (MD17) Batch Size 512
+
+### Field SchNet
+
+  | Name    | Type                   | Params | Mode 
+-----------------------------------------------------------
+0 | model   | NeuralNetworkPotential | 432 K  | train
+1 | outputs | ModuleList             | 0      | train
+-----------------------------------------------------------
+432 K     Trainable params
+0         Non-trainable params
+432 K     Total params
+1.731     Total estimated model params size (MB)
+154       Modules in train mode
+0         Modules in eval mode
+- Version 1  (QM7X) Batch Size 512
+- Version 19 (MD17) Batch Size 512
+
+### PaiNN
+
+  | Name    | Type                   | Params | Mode 
+-----------------------------------------------------------
+0 | model   | NeuralNetworkPotential | 1.2 M  | train
+1 | outputs | ModuleList             | 0      | train
+-----------------------------------------------------------
+1.2 M     Trainable params
+0         Non-trainable params
+1.2 M     Total params
+4.628     Total estimated model params size (MB)
+117       Modules in train mode
+0         Modules in eval mode
+- Version 2  (QM7X) Batch Size 512
+- Version 18 (MD17) Batch Size 256
+
+
+SO(3)Net
+
+  | Name    | Type                   | Params | Mode 
+-----------------------------------------------------------
+0 | model   | NeuralNetworkPotential | 546 K  | train
+1 | outputs | ModuleList             | 0      | train
+-----------------------------------------------------------
+546 K     Trainable params
+0         Non-trainable params
+546 K     Total params
+2.186     Total estimated model params size (MB)
+96        Modules in train mode
+0         Modules in eval mode
+- Version 16 (MD17) Batch Size 256
+- Version 17 (QM7X) Batch Size 256

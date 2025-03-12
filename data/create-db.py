@@ -4,10 +4,15 @@ import numpy as np
 from sys import stdout
 from ase import Atoms
 from schnetpack.data import ASEAtomsData
+from schnetpack.properties import (  # Updated imports
+    Z, R, n_atoms, 
+    cell, pbc, idx_i, idx_j, Rij
+)
+
 
 SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
 DATASET_DIR = os.path.join(SCRIPT_DIR,  "QM7X_Dataset")
-DB_PATH     = os.path.join(DATASET_DIR, "QM7X.db")   
+DB_PATH     = os.path.join(DATASET_DIR, "QM7X-2.db")   
 
 # Atom reference energies (used for atomization energy calculations)
 EPBE0_atom = {
@@ -69,14 +74,14 @@ for filename in hdf5_files:
             for confid in fMOL[molid].keys():
                 try:
                     # Extract atomic properties
-                    Z = np.array(fMOL[molid][confid]["atNUM"])  # Atomic numbers
-                    R = np.array(fMOL[molid][confid]["atXYZ"])  # Atomic positions
+                    __Z = np.array(fMOL[molid][confid]["atNUM"])  # Atomic numbers
+                    __R = np.array(fMOL[molid][confid]["atXYZ"])  # Atomic positions
 
                     # Extract total energy (PBE0+MBD energy)
                     energy = float(fMOL[molid][confid]["ePBE0+MBD"][()])
                     
                     # Compute atomization energy (E_atom = E_total - sum(E_atom_reference))
-                    atomic_energies = np.array([EPBE0_atom[z] for z in Z])
+                    atomic_energies = np.array([EPBE0_atom[z] for z in __Z])
                     atomization_energy = energy - np.sum(atomic_energies)
 
                     forces = np.array(fMOL[molid][confid]["totFOR"])
@@ -84,13 +89,15 @@ for filename in hdf5_files:
                     dipole = float(fMOL[molid][confid]["DIP"][()])
                     polarizability = float(fMOL[molid][confid]["mPOL"][()])
 
-                    if forces.shape != (len(Z), 3):
+                    if forces.shape != (len(__Z), 3):
                         stdout.write(f"Skipping {molid}-{confid}: Invalid force shape {forces.shape}\n")
                         continue
 
-                    atoms = Atoms(numbers=Z, positions=R)
+                    atoms = Atoms(numbers=__Z, positions=__R)
 
                     properties = {
+                        Z: __Z,
+                        R: __R,
                         "energy": np.array([energy]),                           # Total Energy as (1,) array
                         "atomization_energy": np.array([atomization_energy]),   # Atomization Energy as (1,) array
                         "forces": forces,                                       # Forces as (N,3) array

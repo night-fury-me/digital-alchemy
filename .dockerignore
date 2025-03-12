@@ -1,0 +1,81 @@
+# Ignore version control directories
+.git
+.hg
+.svn
+
+# Ignore node dependencies
+node_modules
+
+# Ignore Python cache and virtual environments
+__pycache__
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+
+# Ignore compiled object files
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+*.bak
+*.orig
+*.rej
+*.sublime-workspace
+*.sublime-project
+
+# Ignore OS-generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Ignore build directories
+build/
+dist/
+tmp/
+out/
+
+# Ignore environment and configuration files
+.env
+.env.*
+*.local
+*.config
+*.settings
+
+# Ignore package manager directories
+npm-debug.log
+yarn-error.log
+.pnpm-debug.log
+package-lock.json
+yarn.lock
+.pnpm-lock.yaml
+
+# Ignore coverage reports
+coverage/
+coverage.*.json
+.nyc_output/
+*.lcov
+
+# Ignore IDE and editor directories and files
+.idea/
+.vscode/
+*.iml
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Ignore Docker-related files
+Dockerfile
+.dockerignore
