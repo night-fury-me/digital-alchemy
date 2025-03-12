@@ -28,7 +28,6 @@ env/
 .venv/
 
 # Data and Models
-*.csv
 *.h5
 *.hdf5
 *.pth
@@ -60,7 +59,7 @@ results/
 
 # Jupyter
 .ipynb_checkpoints/
-*.ipynb
+# *.ipynb
 
 # Environment files
 .env
