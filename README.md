@@ -47,12 +47,12 @@ cd digital-alchemy
 Then, build the Docker image using:
 
 ```bash
-docker build -t digital_alchemy_img .
+docker build -f Dockerfile.custom -t digital_alchemy_img .
 ```
 
 This will create an image named `digital_alchemy_img`.
 
----
+<!-- ---
 
 ### **Running the MLflow Server Inside a Docker Container**
 
@@ -68,7 +68,7 @@ Once the server is running, you can access the MLflow UI at:
 http://localhost:5000
 ```
 
----
+--- -->
 
 ### **Dataset Preparation**
 
@@ -129,6 +129,8 @@ digital-alchemy/
 │   └── test_molecule.xyz
 ├── README.md
 ├── requirements.txt
+├── Dockerfile
+├── Dockerfile.custom
 ├── simulate_md.py
 ├── simulation
 │   └── trajectory.traj
@@ -147,34 +149,12 @@ docker run --rm -it --gpus all -v $(pwd):/workspace -w /workspace --network="hos
 
 ---
 
-### **Verifying MLflow Logging**
-
-After running the training script, check the MLflow UI (`http://localhost:5000`) to ensure experiment metrics, parameters, and logs are recorded.
-
----
-
-### **Stopping the MLflow Server**
-
-To stop the MLflow server, find the running container ID using:
-
-```bash
-docker ps
-```
-
-Then stop the container using:
-
-```bash
-docker stop <container-id>
-```
-
----
-
 ### **Training Details**
 
--   Uses `SchNet` as the base neural network.
+-   Experimented with `SchNet`, `FieldSchNet`, `PaiNN`, `SO(3)Net`.
 -   Optimized using `AdamW optimizer`.
--   Loss function balances energy (MSE loss) and force predictions.
--   Logs training results in MLflow.
+-   Loss function balances energy (MAE loss) and force predictions.
+-   Logs training results in Tensorboard.
 
 ---
 
@@ -258,3 +238,4 @@ chmod +x data/prepare-dataset.sh
 
 -   Christensen et al., (2020). QM7-X, a comprehensive dataset. _Scientific Data_, 7(1), 1-7. https://doi.org/10.1038/s41597-020-0473-z
 -   Schütt et al., (2023). SchNetPack 2.0: _A neural network toolbox for atomistic machine learning._ https://doi.org/10.1063/5.0138367
+-   SchNetPack - _Deep Neural Networks for Atomistic Systems._ https://github.com/atomistic-machine-learning/schnetpack
