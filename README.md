@@ -1,6 +1,8 @@
 > _This repository contains Digital Alchemy Project (WiSe24/25 at FAU) and uses [QM7-X dataset](https://zenodo.org/records/4288677)._
 
-### Project Title: **Geometric Deep Learning for Quantum-Accurate ForcePrediction**: _Comparative Study of SchNet, Field SchNet, PaiNN, and SO(3)Net on Energy and Molecular Dynamics_
+### Project Title:
+
+Geometric Deep Learning for Quantum-Accurate ForcePrediction: _A Comparative Study of SchNet, Field SchNet, PaiNN, and SO(3)Net on Energy and Molecular Dynamics_
 
 <img src="images/banner.png" alt="Project Banner" width="100%">
 
