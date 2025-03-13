@@ -1,4 +1,4 @@
-> _This repository contains Digital Alchemy Project (WiSe24/25 at FAU), which utilizes [SchNetPack](https://github.com/atomistic-machine-learning/schnetpack), [MD17 dataset](https://www.sgdml.org/#datasets) and [QM7-X dataset](https://zenodo.org/records/4288677)._
+> _This repository contains Digital Alchemy Project (WiSe24/25 at FAU), which utilizes [SchNetPack](https://github.com/atomistic-machine-learning/schnetpack), [MD17](https://www.sgdml.org/#datasets) and [QM7-X](https://zenodo.org/records/4288677) dataset._
 
 ### Project Title
 
@@ -10,7 +10,7 @@
 
 ### **Overview**
 
-This project trains a deep learning models - `SchNet`, `FieldSchNet`, `PaiNN` and `SO(3)Net` using the `MD17 dataset` and `QM7-X dataset` to predict `molecular energies and forces`. The trained models are then used in `Molecular Dynamics (MD)` simulations to study atomic motion under various conditions.
+This project trains a deep learning models - `SchNet`, `FieldSchNet`, `PaiNN` and `SO(3)Net` using the `MD17` and `QM7-x` dataset to predict `molecular energies and forces`. The trained models are then used in `Molecular Dynamics (MD)` simulations to study atomic motion under various conditions.
 
 ---
 
