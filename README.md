@@ -2,7 +2,7 @@
 
 ### Project Title:
 
-**Geometric Deep Learning for Quantum-Accurate ForcePrediction**: _A Comparative Study of SchNet, Field SchNet, PaiNN, and SO(3)Net on Energy and Molecular Dynamics_
+**Geometric Deep Learning for Quantum-Accurate Force Prediction**: _A Comparative Study of SchNet, Field SchNet, PaiNN, and SO(3)Net on Energy and Molecular Dynamics_
 
 <img src="images/banner.png" alt="Project Banner" width="100%">
 
@@ -122,8 +122,8 @@ digital-alchemy/
 │   └── trajectory.traj
 ├── split.npz
 ├── splitting.lock
-├── __version__.py
-└── train.py
+├── train.py
+└── __version__.py
 ```
 
 ### **Running the Training Script (`train.py`) in a Docker Container**
@@ -223,8 +223,8 @@ chmod +x data/prepare-dataset.sh
 
 ### **References**
 
-[1] Schütt et al., (2023). SchNetPack 2.0: _A neural network toolbox for atomistic machine learning._ https://doi.org/10.1063/5.0138367
-[2] Schütt, K. T., Kessel, P., Gastegger, M., Nicoli, K. A., Tkatchenko, A., & Müller, K.-R. (2019). _"SchNetPack: A Deep Learning Toolbox For Atomistic Systems."_ _Journal of Chemical Theory and Computation_, 15(1), 448–455. https://doi.org/10.1021/acs.jctc.8b00908  
-GitHub repository: [SchNetPack](https://github.com/atomistic-machine-learning/schnetpack)
-[3] Johannes Hoja, Leonardo Medrano Sandonas, Brian G. Ernst, Alvaro Vazquez-Mayagoitia, Robert A. DiStasio Jr., Alexandre Tkatchenko. QM7-X, a comprehensive dataset. _Scientific Data_, 7(1), 1-7. https://arxiv.org/abs/2006.15139
-[4] Chmiela, S., Sauceda, H. E., Müller, K. R., & Tkatchenko, A. (2017). _"Machine learning of accurate energy-conserving molecular force fields."_ _Science Advances_, 3(5), e1603015. https://doi.org/10.1126/sciadv.1603015
+-   Schütt et al., (2023). SchNetPack 2.0: _A neural network toolbox for atomistic machine learning._ https://doi.org/10.1063/5.0138367
+-   Schütt, K. T., Kessel, P., Gastegger, M., Nicoli, K. A., Tkatchenko, A., & Müller, K.-R. (2019). _"SchNetPack: A Deep Learning Toolbox For Atomistic Systems."_ _Journal of Chemical Theory and Computation_, 15(1), 448–455. https://doi.org/10.1021/acs.jctc.8b00908  
+    GitHub repository: [SchNetPack](https://github.com/atomistic-machine-learning/schnetpack)
+-   Johannes Hoja, Leonardo Medrano Sandonas, Brian G. Ernst, Alvaro Vazquez-Mayagoitia, Robert A. DiStasio Jr., Alexandre Tkatchenko. QM7-X, a comprehensive dataset. _Scientific Data_, 7(1), 1-7. https://arxiv.org/abs/2006.15139
+-   Chmiela, S., Sauceda, H. E., Müller, K. R., & Tkatchenko, A. (2017). _"Machine learning of accurate energy-conserving molecular force fields."_ _Science Advances_, 3(5), e1603015. https://doi.org/10.1126/sciadv.1603015
