@@ -1,6 +1,6 @@
 > _This repository contains Digital Alchemy Project (WiSe24/25 at FAU) and uses [QM7-X dataset](https://zenodo.org/records/4288677)._
 
-## Project Title: **"_QuantumML-MolDynamics_"** Predicting Molecular Energies and Forces for Advanced Molecular Dynamics Simulations
+### Project Title: **Geometric Deep Learning for Quantum-Accurate ForcePrediction**: _Comparative Study of SchNet, Field SchNet, PaiNN, and SO(3)Net on Energy and Molecular Dynamics_
 
 <img src="images/banner.png" alt="Project Banner" width="100%">
 
@@ -8,7 +8,7 @@
 
 ### **Overview**
 
-This project trains a machine learning model using the **QM7-X dataset** to predict **molecular energies and forces**. The trained model is then used in **Molecular Dynamics (MD) simulations** to study atomic motion under various conditions.
+This project trains a deep learning models - `SchNet`, `FieldSchNet`, `PaiNN` and `SO(3)Net` using the **MD17 dataset** and **QM7-X dataset** to predict **molecular energies and forces**. The trained models are then used in **Molecular Dynamics (MD) simulations** to study atomic motion under various conditions.
 
 ---
 
@@ -52,23 +52,7 @@ docker build -f Dockerfile.custom -t digital_alchemy_img .
 
 This will create an image named `digital_alchemy_img`.
 
-<!-- ---
-
-### **Running the MLflow Server Inside a Docker Container**
-
-To start the MLflow server inside a Docker container and expose the MLflow UI on port 5000, run:
-
-```bash
-docker run -d --gpus all -p 5000:5000 -v $(pwd)/mlruns:/workspace/mlruns -w /workspace --name mlflow_server digital_alchemy_img mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri /workspace/mlruns
-```
-
-Once the server is running, you can access the MLflow UI at:
-
-```
-http://localhost:5000
-```
-
---- -->
+---
 
 ### **Dataset Preparation**
 
@@ -136,6 +120,7 @@ digital-alchemy/
 │   └── trajectory.traj
 ├── split.npz
 ├── splitting.lock
+├── __version__.py
 └── train.py
 ```
 
@@ -236,6 +221,8 @@ chmod +x data/prepare-dataset.sh
 
 ### **References**
 
--   Christensen et al., (2020). QM7-X, a comprehensive dataset. _Scientific Data_, 7(1), 1-7. https://doi.org/10.1038/s41597-020-0473-z
--   Schütt et al., (2023). SchNetPack 2.0: _A neural network toolbox for atomistic machine learning._ https://doi.org/10.1063/5.0138367
--   SchNetPack - _Deep Neural Networks for Atomistic Systems._ https://github.com/atomistic-machine-learning/schnetpack
+[1] Schütt et al., (2023). SchNetPack 2.0: _A neural network toolbox for atomistic machine learning._ https://doi.org/10.1063/5.0138367
+[2] Schütt, K. T., Kessel, P., Gastegger, M., Nicoli, K. A., Tkatchenko, A., & Müller, K.-R. (2019). _"SchNetPack: A Deep Learning Toolbox For Atomistic Systems."_ _Journal of Chemical Theory and Computation_, 15(1), 448–455. https://doi.org/10.1021/acs.jctc.8b00908  
+GitHub repository: [SchNetPack](https://github.com/atomistic-machine-learning/schnetpack)
+[3] Johannes Hoja, Leonardo Medrano Sandonas, Brian G. Ernst, Alvaro Vazquez-Mayagoitia, Robert A. DiStasio Jr., Alexandre Tkatchenko. QM7-X, a comprehensive dataset. _Scientific Data_, 7(1), 1-7. https://arxiv.org/abs/2006.15139
+[4] Chmiela, S., Sauceda, H. E., Müller, K. R., & Tkatchenko, A. (2017). _"Machine learning of accurate energy-conserving molecular force fields."_ _Science Advances_, 3(5), e1603015. https://doi.org/10.1126/sciadv.1603015
