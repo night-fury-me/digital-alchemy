@@ -10,7 +10,7 @@
 
 ### **Overview**
 
-This project trains a deep learning models - `SchNet`, `FieldSchNet`, `PaiNN` and `SO(3)Net` using the **MD17 dataset** and **QM7-X dataset** to predict **molecular energies and forces**. The trained models are then used in **Molecular Dynamics (MD) simulations** to study atomic motion under various conditions.
+This project trains a deep learning models - `SchNet`, `FieldSchNet`, `PaiNN` and `SO(3)Net` using the `MD17 dataset` and `QM7-X dataset` to predict `molecular energies and forces`. The trained models are then used in `Molecular Dynamics (MD)` simulations to study atomic motion under various conditions.
 
 ---
 
