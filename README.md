@@ -1,6 +1,6 @@
 > _This repository contains Digital Alchemy Project (WiSe24/25 at FAU), which utilizes [SchNetPack](https://github.com/atomistic-machine-learning/schnetpack), [MD17 dataset](https://www.sgdml.org/#datasets) and [QM7-X dataset](https://zenodo.org/records/4288677)._
 
-### Project Title:
+### Project Title
 
 **Geometric Deep Learning for Quantum-Accurate Force Prediction**: _A Comparative Study of SchNet, Field SchNet, PaiNN, and SO(3)Net on Energy and Molecular Dynamics_
 
