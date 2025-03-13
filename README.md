@@ -2,7 +2,7 @@
 
 ### Project Title:
 
-Geometric Deep Learning for Quantum-Accurate ForcePrediction: _A Comparative Study of SchNet, Field SchNet, PaiNN, and SO(3)Net on Energy and Molecular Dynamics_
+**Geometric Deep Learning for Quantum-Accurate ForcePrediction**: _A Comparative Study of SchNet, Field SchNet, PaiNN, and SO(3)Net on Energy and Molecular Dynamics_
 
 <img src="images/banner.png" alt="Project Banner" width="100%">
 
